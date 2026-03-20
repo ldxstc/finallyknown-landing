@@ -3,387 +3,476 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Known — Finally known.</title>
-  <meta name="description" content="Every AI you use starts from zero. Known changes that. Your AI, finally knowing you." />
+  <title>Known</title>
+  <meta name="description" content="Finally known." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,200;0,300;0,400;0,500;1,200;1,300&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --black: #0a0a0a;
-      --near-black: #111;
-      --dark: #1a1a1a;
-      --mid: #2a2a2a;
-      --border: #2f2f2f;
-      --muted: #666;
-      --dim: #888;
-      --text: #e8e8e8;
-      --bright: #f5f5f5;
-      --accent: #c8a96e;
-      --accent-dim: #a88848;
+      --ink: #f0ede8;
+      --ink-mid: rgba(240,237,232,0.5);
+      --ink-faint: rgba(240,237,232,0.22);
+      --ink-whisper: rgba(240,237,232,0.10);
+      --void: #070706;
+      --void-lift: #0e0e0c;
+      --gold: #b89a6a;
+      --gold-glow: rgba(184,154,106,0.12);
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      background: var(--black);
-      color: var(--text);
-      font-family: 'Inter', -apple-system, sans-serif;
-      font-size: 16px;
-      line-height: 1.6;
+      background: var(--void);
+      color: var(--ink);
+      font-family: 'Inter', -apple-system, 'Helvetica Neue', sans-serif;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
 
-    /* NAV */
+    /* ── ATMOSPHERE ── */
+    .atmosphere {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    }
+    .atmosphere::before {
+      content: '';
+      position: absolute;
+      top: -20vh; left: 50%; transform: translateX(-50%);
+      width: 80vw; height: 80vh;
+      background: radial-gradient(ellipse at center,
+        rgba(184,154,106,0.055) 0%,
+        rgba(184,154,106,0.02) 40%,
+        transparent 70%);
+      filter: blur(40px);
+    }
+
+    /* ── NAV ── */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 28px 48px;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 20px 40px;
-      background: rgba(10,10,10,0.88);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid transparent;
-      transition: border-color 0.3s;
     }
-    nav.scrolled { border-bottom-color: var(--border); }
-    .nav-logo {
-      font-size: 18px; font-weight: 500; letter-spacing: -0.02em;
-      color: var(--bright); text-decoration: none;
+    .wordmark {
+      font-size: 16px; font-weight: 400; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--ink);
+      text-decoration: none; opacity: 0.9;
     }
-    .nav-logo span { color: var(--accent); }
-    .nav-links { display: flex; gap: 32px; align-items: center; }
-    .nav-links a {
-      color: var(--dim); font-size: 14px; text-decoration: none;
-      transition: color 0.2s;
+    .nav-right {
+      display: flex; align-items: center; gap: 40px;
     }
-    .nav-links a:hover { color: var(--text); }
-    .nav-cta {
-      background: var(--accent) !important; color: var(--black) !important;
-      padding: 8px 20px; border-radius: 6px; font-weight: 500 !important;
-      font-size: 14px !important; transition: opacity 0.2s !important;
+    .nav-link {
+      font-size: 13px; font-weight: 300; letter-spacing: 0.06em;
+      color: var(--ink-mid); text-decoration: none;
+      transition: color 0.4s;
     }
-    .nav-cta:hover { opacity: 0.85; }
+    .nav-link:hover { color: var(--ink); }
+    .nav-pill {
+      font-size: 12px; font-weight: 400; letter-spacing: 0.08em;
+      color: var(--gold); border: 1px solid rgba(184,154,106,0.35);
+      padding: 8px 22px; border-radius: 100px; text-decoration: none;
+      transition: background 0.4s, border-color 0.4s;
+    }
+    .nav-pill:hover {
+      background: rgba(184,154,106,0.08);
+      border-color: rgba(184,154,106,0.6);
+    }
 
-    /* HERO */
+    /* ── HERO ── */
     .hero {
-      min-height: 100vh;
+      position: relative; z-index: 1;
+      min-height: 100svh;
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
       text-align: center;
-      padding: 120px 24px 80px;
-      position: relative; overflow: hidden;
+      padding: 0 24px;
     }
-    .hero::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: radial-gradient(ellipse 60% 50% at 50% 40%, rgba(200,169,110,0.06) 0%, transparent 70%);
-      pointer-events: none;
+
+    .hero-kana {
+      font-size: 13px; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--gold); font-weight: 300;
+      margin-bottom: 52px; opacity: 0.8;
     }
-    .hero-eyebrow {
-      font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--accent); font-weight: 500; margin-bottom: 28px;
+
+    .hero-headline {
+      font-size: clamp(52px, 9vw, 112px);
+      font-weight: 200;
+      letter-spacing: -0.04em;
+      line-height: 0.95;
+      color: var(--ink);
+      margin-bottom: 40px;
     }
-    .hero-title {
-      font-size: clamp(42px, 7vw, 84px);
-      font-weight: 300; letter-spacing: -0.03em; line-height: 1.05;
-      color: var(--bright); max-width: 800px; margin-bottom: 28px;
+    .hero-headline .accent {
+      font-style: italic;
+      font-weight: 200;
+      color: var(--gold);
     }
-    .hero-title em { font-style: normal; color: var(--accent); }
+
     .hero-sub {
-      font-size: clamp(16px, 2vw, 20px); color: var(--dim);
-      max-width: 520px; line-height: 1.7; font-weight: 300; margin-bottom: 48px;
-    }
-    .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
-    .btn-primary {
-      background: var(--accent); color: var(--black);
-      padding: 14px 32px; border-radius: 8px; font-weight: 500;
-      font-size: 15px; text-decoration: none; letter-spacing: -0.01em;
-      transition: opacity 0.2s, transform 0.2s; display: inline-block;
-    }
-    .btn-primary:hover { opacity: 0.85; transform: translateY(-1px); }
-    .btn-secondary {
-      border: 1px solid var(--border); color: var(--text);
-      padding: 14px 32px; border-radius: 8px; font-weight: 400;
-      font-size: 15px; text-decoration: none; letter-spacing: -0.01em;
-      transition: border-color 0.2s, color 0.2s; display: inline-block;
-    }
-    .btn-secondary:hover { border-color: var(--dim); color: var(--bright); }
-
-    /* SECTIONS */
-    section { padding: 100px 24px; }
-    .container { max-width: 1000px; margin: 0 auto; }
-    .container-narrow { max-width: 640px; margin: 0 auto; }
-    .section-label {
-      font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--accent); font-weight: 500; margin-bottom: 20px;
-    }
-    .section-title {
-      font-size: clamp(28px, 4vw, 44px); font-weight: 300;
-      letter-spacing: -0.02em; color: var(--bright);
-      line-height: 1.2; margin-bottom: 20px;
-    }
-    .section-body {
-      font-size: 18px; color: var(--dim); line-height: 1.75;
-      font-weight: 300; max-width: 560px;
+      font-size: clamp(16px, 1.8vw, 20px);
+      font-weight: 300;
+      color: var(--ink-mid);
+      line-height: 1.75;
+      max-width: 460px;
+      letter-spacing: 0.01em;
+      margin-bottom: 56px;
     }
 
-    /* PROBLEM */
-    .problem {
-      background: var(--near-black);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
+    .hero-actions {
+      display: flex; align-items: center; gap: 24px; flex-wrap: wrap;
+      justify-content: center;
     }
-    .problem-grid {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 60px; align-items: start; margin-top: 60px;
-    }
-    @media (max-width: 700px) { .problem-grid { grid-template-columns: 1fr; gap: 40px; } }
-    .problem-stat {
-      font-size: 64px; font-weight: 300; color: var(--accent);
-      line-height: 1; margin-bottom: 12px; letter-spacing: -0.03em;
-    }
-    .problem-label { font-size: 15px; color: var(--dim); line-height: 1.6; }
 
-    /* MOMENTS */
-    .moments { background: var(--black); }
-    .moment-list { margin-top: 64px; display: flex; flex-direction: column; gap: 80px; }
-    .moment { display: grid; grid-template-columns: 48px 1fr; gap: 32px; align-items: start; }
-    .moment-num {
-      font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--accent); font-weight: 500; padding-top: 6px;
+    .btn-ghost {
+      font-size: 13px; font-weight: 400; letter-spacing: 0.1em;
+      color: var(--gold); border: 1px solid rgba(184,154,106,0.3);
+      padding: 13px 36px; border-radius: 100px; text-decoration: none;
+      transition: all 0.4s;
+      text-transform: uppercase;
     }
+    .btn-ghost:hover {
+      background: rgba(184,154,106,0.08);
+      border-color: rgba(184,154,106,0.55);
+    }
+
+    .btn-plain {
+      font-size: 13px; font-weight: 300; letter-spacing: 0.08em;
+      color: var(--ink-mid); text-decoration: none;
+      transition: color 0.4s; text-transform: uppercase;
+    }
+    .btn-plain:hover { color: var(--ink); }
+
+    .hero-scroll-hint {
+      position: absolute; bottom: 40px; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+    }
+    .scroll-dot {
+      width: 4px; height: 4px; border-radius: 50%;
+      background: var(--ink-faint);
+      animation: scroll-pulse 2.4s ease-in-out infinite;
+    }
+    .scroll-dot:nth-child(2) { animation-delay: 0.3s; opacity: 0.6; }
+    .scroll-dot:nth-child(3) { animation-delay: 0.6s; opacity: 0.3; }
+    @keyframes scroll-pulse {
+      0%, 100% { opacity: 0.2; transform: translateY(0); }
+      50% { opacity: 0.8; transform: translateY(4px); }
+    }
+
+    /* ── DIVIDER ── */
+    .rule {
+      width: 1px; height: 80px; background: var(--ink-whisper);
+      margin: 0 auto;
+    }
+
+    /* ── STATEMENT ── */
+    .statement {
+      position: relative; z-index: 1;
+      padding: 140px 24px;
+      text-align: center;
+    }
+    .statement-text {
+      font-size: clamp(22px, 3.5vw, 40px);
+      font-weight: 200;
+      color: var(--ink-mid);
+      line-height: 1.65;
+      letter-spacing: -0.01em;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .statement-text strong {
+      color: var(--ink);
+      font-weight: 300;
+    }
+
+    /* ── MOMENTS ── */
+    .moments {
+      position: relative; z-index: 1;
+      padding: 80px 24px 140px;
+    }
+    .moments-inner {
+      max-width: 860px; margin: 0 auto;
+      display: flex; flex-direction: column; gap: 1px;
+    }
+    .moment-item {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 0;
+      border-top: 1px solid var(--ink-whisper);
+      padding: 52px 0;
+      transition: border-color 0.4s;
+    }
+    .moment-item:hover { border-top-color: rgba(184,154,106,0.2); }
+    .moment-item:last-child { border-bottom: 1px solid var(--ink-whisper); }
+    .moment-n {
+      font-size: 12px; font-weight: 300; letter-spacing: 0.15em;
+      color: var(--gold); text-transform: uppercase;
+      padding-top: 4px; opacity: 0.7;
+    }
+    .moment-content {}
     .moment-title {
-      font-size: 24px; font-weight: 400; color: var(--bright);
-      letter-spacing: -0.02em; margin-bottom: 16px;
+      font-size: clamp(20px, 2.5vw, 28px);
+      font-weight: 300; letter-spacing: -0.02em;
+      color: var(--ink); margin-bottom: 20px; line-height: 1.2;
     }
-    .moment-body { font-size: 16px; color: var(--dim); line-height: 1.75; margin-bottom: 24px; }
+    .moment-body {
+      font-size: 15px; font-weight: 300;
+      color: var(--ink-mid); line-height: 1.8;
+      max-width: 520px; margin-bottom: 32px;
+    }
     .moment-quote {
-      background: var(--dark); border-left: 2px solid var(--accent);
-      padding: 20px 24px; border-radius: 0 6px 6px 0;
-      font-size: 14px; color: var(--text); line-height: 1.7; font-style: italic;
+      font-size: 13px; font-weight: 300; font-style: italic;
+      color: var(--ink-faint);
+      border-left: 1px solid rgba(184,154,106,0.25);
+      padding-left: 20px;
+      line-height: 1.85;
+      max-width: 480px;
+      letter-spacing: 0.01em;
+      transition: color 0.4s, border-color 0.4s;
+    }
+    .moment-item:hover .moment-quote {
+      color: rgba(240,237,232,0.4);
+      border-left-color: rgba(184,154,106,0.4);
     }
 
-    /* STORY */
-    .story {
-      background: var(--near-black);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
+    @media (max-width: 640px) {
+      .moment-item { grid-template-columns: 1fr; gap: 16px; padding: 40px 0; }
     }
-    .story-text {
-      font-size: clamp(18px, 2.5vw, 24px); font-weight: 300;
-      color: var(--dim); line-height: 1.85; letter-spacing: -0.01em;
-    }
-    .story-text strong { color: var(--text); font-weight: 400; }
-    .story-text em { color: var(--accent); font-style: normal; font-weight: 400; }
 
-    /* HOW */
-    .how { background: var(--near-black); border-top: 1px solid var(--border); }
-    .how-steps {
-      margin-top: 56px;
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px;
+    /* ── STORY PANEL ── */
+    .story-panel {
+      position: relative; z-index: 1;
+      background: var(--void-lift);
+      border-top: 1px solid var(--ink-whisper);
+      border-bottom: 1px solid var(--ink-whisper);
+      padding: 120px 24px;
     }
-    @media (max-width: 700px) { .how-steps { grid-template-columns: 1fr; } }
-    .how-step-num {
-      font-size: 11px; color: var(--accent); letter-spacing: 0.1em;
-      text-transform: uppercase; font-weight: 500; margin-bottom: 16px;
+    .story-inner { max-width: 600px; margin: 0 auto; }
+    .story-label {
+      font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gold); font-weight: 300; margin-bottom: 48px; opacity: 0.7;
     }
-    .how-step-title {
-      font-size: 18px; color: var(--bright); font-weight: 400;
-      letter-spacing: -0.01em; margin-bottom: 12px;
+    .story-copy {
+      font-size: clamp(17px, 2vw, 22px);
+      font-weight: 200; color: var(--ink-mid);
+      line-height: 1.9; letter-spacing: 0.01em;
     }
-    .how-step-body { font-size: 14px; color: var(--dim); line-height: 1.7; }
+    .story-copy strong { color: var(--ink); font-weight: 300; }
+    .story-copy em { color: var(--gold); font-style: normal; }
 
-    /* ORIGIN */
-    .origin { text-align: center; background: var(--black); }
-    .origin-char {
-      font-size: 96px; color: var(--accent); opacity: 0.2;
-      font-weight: 300; line-height: 1; margin-bottom: 32px;
-      display: block;
+    /* ── ORIGIN ── */
+    .origin {
+      position: relative; z-index: 1;
+      padding: 140px 24px;
+      text-align: center;
+      overflow: hidden;
+    }
+    .origin-bg-char {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: clamp(200px, 40vw, 400px);
+      font-weight: 200;
+      color: var(--ink-whisper);
+      opacity: 0.06;
+      user-select: none; pointer-events: none;
+      line-height: 1;
+    }
+    .origin-content {
+      position: relative; z-index: 1;
+      max-width: 540px; margin: 0 auto;
+    }
+    .origin-char-small {
+      font-size: 48px; color: var(--gold);
+      opacity: 0.45; margin-bottom: 40px; display: block;
+      font-weight: 200;
     }
     .origin-text {
-      font-size: 18px; color: var(--dim); line-height: 1.8;
-      font-weight: 300; max-width: 540px; margin: 0 auto 16px;
+      font-size: 17px; font-weight: 300; color: var(--ink-mid);
+      line-height: 1.85; margin-bottom: 20px; letter-spacing: 0.01em;
     }
-    .origin-quote { font-size: 14px; color: var(--muted); font-style: italic; }
-
-    /* CTA */
-    .cta-section { text-align: center; background: var(--black); padding: 120px 24px; }
-    .cta-title {
-      font-size: clamp(36px, 6vw, 68px); font-weight: 300;
-      color: var(--bright); letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 24px;
+    .origin-proverb {
+      font-size: 13px; font-weight: 200; font-style: italic;
+      color: var(--ink-faint); letter-spacing: 0.05em;
     }
-    .cta-title em { font-style: normal; color: var(--accent); }
-    .cta-sub { font-size: 17px; color: var(--dim); margin-bottom: 48px; font-weight: 300; }
-    .cta-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
-    .cta-note { margin-top: 24px; font-size: 13px; color: var(--muted); }
 
-    /* FOOTER */
+    /* ── CLOSE ── */
+    .close-section {
+      position: relative; z-index: 1;
+      padding: 160px 24px 200px;
+      text-align: center;
+    }
+    .close-headline {
+      font-size: clamp(60px, 12vw, 140px);
+      font-weight: 200; letter-spacing: -0.04em;
+      line-height: 0.92; color: var(--ink);
+      margin-bottom: 52px;
+    }
+    .close-headline em {
+      font-style: italic; color: var(--gold);
+    }
+    .close-sub {
+      font-size: 14px; font-weight: 300; color: var(--ink-faint);
+      letter-spacing: 0.1em; text-transform: uppercase;
+      margin-bottom: 56px;
+    }
+    .close-actions {
+      display: flex; align-items: center; gap: 32px;
+      justify-content: center; flex-wrap: wrap;
+    }
+
+    /* ── FOOTER ── */
     footer {
-      border-top: 1px solid var(--border); padding: 40px 24px;
+      position: relative; z-index: 1;
+      border-top: 1px solid var(--ink-whisper);
+      padding: 36px 48px;
       display: flex; justify-content: space-between; align-items: center;
-      flex-wrap: wrap; gap: 16px; max-width: 1000px; margin: 0 auto;
+      flex-wrap: wrap; gap: 16px;
     }
-    .footer-logo { font-size: 15px; color: var(--dim); }
-    .footer-logo span { color: var(--accent); }
-    .footer-links { display: flex; gap: 24px; }
+    .footer-mark {
+      font-size: 13px; font-weight: 300; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--ink-faint);
+    }
+    .footer-links { display: flex; gap: 32px; }
     .footer-links a {
-      font-size: 13px; color: var(--muted); text-decoration: none; transition: color 0.2s;
+      font-size: 12px; font-weight: 300; letter-spacing: 0.08em;
+      color: var(--ink-faint); text-decoration: none;
+      transition: color 0.4s;
     }
-    .footer-links a:hover { color: var(--dim); }
-    .footer-copy { font-size: 13px; color: var(--muted); width: 100%; text-align: center; }
+    .footer-links a:hover { color: var(--ink-mid); }
   </style>
 </head>
 <body>
 
-<nav id="nav">
-  <a href="/" class="nav-logo">Known<span>.</span></a>
-  <div class="nav-links">
-    <a href="#how">How it works</a>
-    <a href="https://github.com/will-uniphore/finallyknown" target="_blank">GitHub</a>
-    <a href="#start" class="nav-cta">Get started</a>
+<div class="atmosphere"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="wordmark">Known</a>
+  <div class="nav-right">
+    <a href="#moments" class="nav-link">Product</a>
+    <a href="https://github.com/will-uniphore/finallyknown" target="_blank" class="nav-link">GitHub</a>
+    <a href="#start" class="nav-pill">Get started</a>
   </div>
 </nav>
 
+<!-- HERO -->
 <section class="hero">
-  <p class="hero-eyebrow">finallyknown.ai</p>
-  <h1 class="hero-title">Your AI,<br><em>finally</em> knowing you.</h1>
-  <p class="hero-sub">Every AI you use starts from zero. It doesn't know your name, your work, your patterns. Known changes that — permanently.</p>
+  <p class="hero-kana">知己 &nbsp;·&nbsp; zhī jǐ</p>
+
+  <h1 class="hero-headline">
+    Finally<br><span class="accent">known.</span>
+  </h1>
+
+  <p class="hero-sub">
+    Every AI you use starts from zero.<br>
+    Known changes that — permanently.
+  </p>
+
   <div class="hero-actions">
-    <a href="#start" class="btn-primary">Get started free</a>
-    <a href="#how" class="btn-secondary">See how it works</a>
+    <a href="https://github.com/will-uniphore/finallyknown" class="btn-ghost">Get started free</a>
+    <a href="#moments" class="btn-plain">See how it works ↓</a>
+  </div>
+
+  <div class="hero-scroll-hint">
+    <div class="scroll-dot"></div>
+    <div class="scroll-dot"></div>
+    <div class="scroll-dot"></div>
   </div>
 </section>
 
-<section class="problem">
-  <div class="container">
-    <p class="section-label">The problem</p>
-    <h2 class="section-title">Every AI you use<br>starts from scratch.</h2>
-    <p class="section-body">You explain yourself endlessly. Your preferences, your context, your history. Every new tool, a stranger. Every conversation, from zero.</p>
-    <div class="problem-grid">
-      <div>
-        <div class="problem-stat">∞</div>
-        <p class="problem-label">Times you've told an AI your preferences — and it forgot the next day.</p>
-      </div>
-      <div>
-        <div class="problem-stat">0</div>
-        <p class="problem-label">AI tools that know your patterns, your goals, and can transfer that understanding to the next tool you try.</p>
+<!-- STATEMENT -->
+<div class="rule"></div>
+<section class="statement">
+  <p class="statement-text">
+    You explain yourself endlessly.<br>
+    Your preferences. Your context. Your history.<br>
+    Every new tool, a <strong>stranger</strong>.<br>
+    Every conversation, from <strong>zero</strong>.
+  </p>
+</section>
+<div class="rule"></div>
+
+<!-- THREE MOMENTS -->
+<section class="moments" id="moments">
+  <div class="moments-inner">
+
+    <div class="moment-item">
+      <span class="moment-n">01</span>
+      <div class="moment-content">
+        <h2 class="moment-title">The Mirror</h2>
+        <p class="moment-body">Your agent sees a pattern you haven't articulated to yourself. It surfaces it when you need to hear it — not when you ask.</p>
+        <p class="moment-quote">"You've been avoiding the financial conversation with your partner for 47 days. Based on your pattern, you delay big decisions when work stress is high. Stress is high right now. This one has a time component — rates are moving."</p>
       </div>
     </div>
-  </div>
-</section>
 
-<section class="moments" id="how">
-  <div class="container">
-    <p class="section-label">What Known does</p>
-    <h2 class="section-title">Three moments that<br>change everything.</h2>
-    <div class="moment-list">
-
-      <div class="moment">
-        <span class="moment-num">01</span>
-        <div>
-          <h3 class="moment-title">The Mirror</h3>
-          <p class="moment-body">Your agent sees a pattern you haven't articulated to yourself — and surfaces it when you need to hear it, not when you ask.</p>
-          <div class="moment-quote">"You've been avoiding the financial conversation with your partner for 47 days. Based on your pattern, you delay big decisions when work stress is high. Work stress is high right now. This one has a time component — rates are moving."</div>
-        </div>
+    <div class="moment-item">
+      <span class="moment-n">02</span>
+      <div class="moment-content">
+        <h2 class="moment-title">The Surprise</h2>
+        <p class="moment-body">You open a new AI tool for the first time. Before you say a word, it already knows you. No setup. No explaining yourself.</p>
+        <p class="moment-quote">"I see you've been deep in this codebase for 3 weeks. Your pattern says you're in the zone — I'll keep interruptions minimal. I know you context-switch between two projects, so I'll remember where we paused."</p>
       </div>
-
-      <div class="moment">
-        <span class="moment-num">02</span>
-        <div>
-          <h3 class="moment-title">The Surprise</h3>
-          <p class="moment-body">You open a new AI tool for the first time. Before you say a word, it already knows you. You never have to explain yourself again.</p>
-          <div class="moment-quote">"I see you've been deep in this codebase for 3 weeks. Your pattern says you're in the zone — I'll keep interruptions minimal. I know you context-switch between two projects, so I'll remember where we paused."</div>
-        </div>
-      </div>
-
-      <div class="moment">
-        <span class="moment-num">03</span>
-        <div>
-          <h3 class="moment-title">The Protection</h3>
-          <p class="moment-body">Known notices when you're about to repeat a pattern that hasn't served you. Your agent intervenes — not by blocking you, but by telling you the truth.</p>
-          <div class="moment-quote">"You've expressed strong enthusiasm about starting this new project. Historical pattern: you've started 4 significant side projects in 3 months. Completion rate with more than 3 active: 25%."</div>
-        </div>
-      </div>
-
     </div>
+
+    <div class="moment-item">
+      <span class="moment-n">03</span>
+      <div class="moment-content">
+        <h2 class="moment-title">The Protection</h2>
+        <p class="moment-body">Known notices when you're about to repeat a pattern that hasn't served you. Your agent intervenes — not by blocking you, but by telling you the truth.</p>
+        <p class="moment-quote">"You've expressed enthusiasm about starting this new project. Historical pattern: 4 significant side projects in 3 months. Completion rate with more than 3 active: 25%. Consider sequencing rather than parallelizing."</p>
+      </div>
+    </div>
+
   </div>
 </section>
 
-<section class="story">
-  <div class="container-narrow">
-    <p class="section-label">A story</p>
-    <p class="story-text">
-      Will had been using AI agents for two years. They were helpful — but they treated him like a stranger every time.<br><br>
+<!-- STORY -->
+<section class="story-panel">
+  <div class="story-inner">
+    <p class="story-label">A story</p>
+    <p class="story-copy">
+      Will had been using AI agents for two years. They were helpful. But they treated him like a stranger every time.<br><br>
       Then he turned on Known.<br><br>
-      Three weeks later, his agent noticed a pattern Will had never seen: he was <strong>systematically avoiding the one conversation that could change his career</strong>. Not because he was afraid — because every time he built up to it, a new project distracted him.<br><br>
+      Three weeks later, his agent noticed a pattern Will had never seen. He was <strong>systematically avoiding the one conversation that could change his career</strong>. Not because he was afraid — because every time he built up to it, a new project distracted him.<br><br>
       His agent said: <em>"You've done this four times. The conversation with your CEO is the highest-leverage thing you can do this quarter. Everything else is displacement activity."</em><br><br>
       <strong>Will had the conversation the next day.</strong>
     </p>
   </div>
 </section>
 
-<section class="how">
-  <div class="container">
-    <p class="section-label">How it works</p>
-    <h2 class="section-title">Set up once.<br>Every AI knows you.</h2>
-    <div class="how-steps">
-      <div class="how-step">
-        <p class="how-step-num">Step 01</p>
-        <h3 class="how-step-title">Connect your agent</h3>
-        <p class="how-step-body">Known installs as a plugin for OpenClaw. One command. No accounts, no dashboards, no API keys to manage.</p>
-      </div>
-      <div class="how-step">
-        <p class="how-step-num">Step 02</p>
-        <h3 class="how-step-title">Known builds your understanding</h3>
-        <p class="how-step-body">Every conversation is analyzed. Preferences, patterns, relationships, blind spots. A knowledge graph — not raw memories, but deep understanding.</p>
-      </div>
-      <div class="how-step">
-        <p class="how-step-num">Step 03</p>
-        <h3 class="how-step-title">Every AI knows you instantly</h3>
-        <p class="how-step-body">Any agent that queries Known gets your understanding immediately. The first response feels like the hundredth conversation.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
+<!-- ORIGIN -->
 <section class="origin">
-  <div class="container-narrow">
-    <span class="origin-char">知己</span>
-    <p class="section-label" style="text-align:center; margin-bottom: 24px;">The origin</p>
-    <p class="origin-text">Known comes from the Chinese concept of 知己 (zhījǐ) — the person who truly knows you. Not a friend, not a partner. Someone who understands you so deeply they can finish your thoughts.</p>
-    <p class="origin-quote">"人生得一知己足矣" — In life, having one zhiji is enough.</p>
-    <p class="origin-text" style="margin-top: 24px;">Known is yours.</p>
+  <div class="origin-bg-char">知己</div>
+  <div class="origin-content">
+    <span class="origin-char-small">知己</span>
+    <p class="origin-text">
+      Known comes from the Chinese concept of 知己 — the person who truly knows you. Not a friend. Not a partner. Someone who understands you so deeply they can finish your thoughts.
+    </p>
+    <p class="origin-proverb">"人生得一知己足矣" &mdash; In life, having one zhiji is enough.</p>
   </div>
 </section>
 
-<section class="cta-section" id="start">
-  <div class="container-narrow">
-    <h2 class="cta-title"><em>Finally</em><br>known.</h2>
-    <p class="cta-sub">Open source. Free to start. Your data stays local.</p>
-    <div class="cta-actions">
-      <a href="https://github.com/will-uniphore/finallyknown" class="btn-primary">View on GitHub →</a>
-      <a href="https://github.com/will-uniphore/finallyknown#readme" class="btn-secondary">Read the docs</a>
-    </div>
-    <p class="cta-note">Works with OpenClaw. More agents coming soon.</p>
+<!-- CLOSE -->
+<section class="close-section" id="start">
+  <h2 class="close-headline">
+    Finally<br><em>known.</em>
+  </h2>
+  <p class="close-sub">Open source &nbsp;·&nbsp; Free to start &nbsp;·&nbsp; Your data stays local</p>
+  <div class="close-actions">
+    <a href="https://github.com/will-uniphore/finallyknown" class="btn-ghost">View on GitHub →</a>
+    <a href="https://github.com/will-uniphore/finallyknown#readme" class="btn-plain">Read the docs</a>
   </div>
 </section>
 
+<!-- FOOTER -->
 <footer>
-  <span class="footer-logo">Known<span>.</span></span>
+  <span class="footer-mark">Known &nbsp;·&nbsp; finallyknown.ai</span>
   <div class="footer-links">
     <a href="https://github.com/will-uniphore/finallyknown" target="_blank">GitHub</a>
     <a href="https://finallyknown.ai">finallyknown.ai</a>
   </div>
-  <p class="footer-copy">© 2026 Known. Finally known.</p>
 </footer>
-
-<script>
-  const nav = document.getElementById('nav');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 20);
-  });
-</script>
 
 </body>
 </html>
