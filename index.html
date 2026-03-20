@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Known — Finally known.</title>
+  <meta name="description" content="Every AI you use starts from zero. Known changes that. Your AI, finally knowing you." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0a0a0a;
+      --near-black: #111;
+      --dark: #1a1a1a;
+      --mid: #2a2a2a;
+      --border: #2f2f2f;
+      --muted: #666;
+      --dim: #888;
+      --text: #e8e8e8;
+      --bright: #f5f5f5;
+      --accent: #c8a96e;
+      --accent-dim: #a88848;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 40px;
+      background: rgba(10,10,10,0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s;
+    }
+    nav.scrolled { border-bottom-color: var(--border); }
+    .nav-logo {
+      font-size: 18px; font-weight: 500; letter-spacing: -0.02em;
+      color: var(--bright); text-decoration: none;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a {
+      color: var(--dim); font-size: 14px; text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta {
+      background: var(--accent) !important; color: var(--black) !important;
+      padding: 8px 20px; border-radius: 6px; font-weight: 500 !important;
+      font-size: 14px !important; transition: opacity 0.2s !important;
+    }
+    .nav-cta:hover { opacity: 0.85; }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 50% at 50% 40%, rgba(200,169,110,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent); font-weight: 500; margin-bottom: 28px;
+    }
+    .hero-title {
+      font-size: clamp(42px, 7vw, 84px);
+      font-weight: 300; letter-spacing: -0.03em; line-height: 1.05;
+      color: var(--bright); max-width: 800px; margin-bottom: 28px;
+    }
+    .hero-title em { font-style: normal; color: var(--accent); }
+    .hero-sub {
+      font-size: clamp(16px, 2vw, 20px); color: var(--dim);
+      max-width: 520px; line-height: 1.7; font-weight: 300; margin-bottom: 48px;
+    }
+    .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+    .btn-primary {
+      background: var(--accent); color: var(--black);
+      padding: 14px 32px; border-radius: 8px; font-weight: 500;
+      font-size: 15px; text-decoration: none; letter-spacing: -0.01em;
+      transition: opacity 0.2s, transform 0.2s; display: inline-block;
+    }
+    .btn-primary:hover { opacity: 0.85; transform: translateY(-1px); }
+    .btn-secondary {
+      border: 1px solid var(--border); color: var(--text);
+      padding: 14px 32px; border-radius: 8px; font-weight: 400;
+      font-size: 15px; text-decoration: none; letter-spacing: -0.01em;
+      transition: border-color 0.2s, color 0.2s; display: inline-block;
+    }
+    .btn-secondary:hover { border-color: var(--dim); color: var(--bright); }
+
+    /* SECTIONS */
+    section { padding: 100px 24px; }
+    .container { max-width: 1000px; margin: 0 auto; }
+    .container-narrow { max-width: 640px; margin: 0 auto; }
+    .section-label {
+      font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent); font-weight: 500; margin-bottom: 20px;
+    }
+    .section-title {
+      font-size: clamp(28px, 4vw, 44px); font-weight: 300;
+      letter-spacing: -0.02em; color: var(--bright);
+      line-height: 1.2; margin-bottom: 20px;
+    }
+    .section-body {
+      font-size: 18px; color: var(--dim); line-height: 1.75;
+      font-weight: 300; max-width: 560px;
+    }
+
+    /* PROBLEM */
+    .problem {
+      background: var(--near-black);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .problem-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 60px; align-items: start; margin-top: 60px;
+    }
+    @media (max-width: 700px) { .problem-grid { grid-template-columns: 1fr; gap: 40px; } }
+    .problem-stat {
+      font-size: 64px; font-weight: 300; color: var(--accent);
+      line-height: 1; margin-bottom: 12px; letter-spacing: -0.03em;
+    }
+    .problem-label { font-size: 15px; color: var(--dim); line-height: 1.6; }
+
+    /* MOMENTS */
+    .moments { background: var(--black); }
+    .moment-list { margin-top: 64px; display: flex; flex-direction: column; gap: 80px; }
+    .moment { display: grid; grid-template-columns: 48px 1fr; gap: 32px; align-items: start; }
+    .moment-num {
+      font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent); font-weight: 500; padding-top: 6px;
+    }
+    .moment-title {
+      font-size: 24px; font-weight: 400; color: var(--bright);
+      letter-spacing: -0.02em; margin-bottom: 16px;
+    }
+    .moment-body { font-size: 16px; color: var(--dim); line-height: 1.75; margin-bottom: 24px; }
+    .moment-quote {
+      background: var(--dark); border-left: 2px solid var(--accent);
+      padding: 20px 24px; border-radius: 0 6px 6px 0;
+      font-size: 14px; color: var(--text); line-height: 1.7; font-style: italic;
+    }
+
+    /* STORY */
+    .story {
+      background: var(--near-black);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .story-text {
+      font-size: clamp(18px, 2.5vw, 24px); font-weight: 300;
+      color: var(--dim); line-height: 1.85; letter-spacing: -0.01em;
+    }
+    .story-text strong { color: var(--text); font-weight: 400; }
+    .story-text em { color: var(--accent); font-style: normal; font-weight: 400; }
+
+    /* HOW */
+    .how { background: var(--near-black); border-top: 1px solid var(--border); }
+    .how-steps {
+      margin-top: 56px;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px;
+    }
+    @media (max-width: 700px) { .how-steps { grid-template-columns: 1fr; } }
+    .how-step-num {
+      font-size: 11px; color: var(--accent); letter-spacing: 0.1em;
+      text-transform: uppercase; font-weight: 500; margin-bottom: 16px;
+    }
+    .how-step-title {
+      font-size: 18px; color: var(--bright); font-weight: 400;
+      letter-spacing: -0.01em; margin-bottom: 12px;
+    }
+    .how-step-body { font-size: 14px; color: var(--dim); line-height: 1.7; }
+
+    /* ORIGIN */
+    .origin { text-align: center; background: var(--black); }
+    .origin-char {
+      font-size: 96px; color: var(--accent); opacity: 0.2;
+      font-weight: 300; line-height: 1; margin-bottom: 32px;
+      display: block;
+    }
+    .origin-text {
+      font-size: 18px; color: var(--dim); line-height: 1.8;
+      font-weight: 300; max-width: 540px; margin: 0 auto 16px;
+    }
+    .origin-quote { font-size: 14px; color: var(--muted); font-style: italic; }
+
+    /* CTA */
+    .cta-section { text-align: center; background: var(--black); padding: 120px 24px; }
+    .cta-title {
+      font-size: clamp(36px, 6vw, 68px); font-weight: 300;
+      color: var(--bright); letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 24px;
+    }
+    .cta-title em { font-style: normal; color: var(--accent); }
+    .cta-sub { font-size: 17px; color: var(--dim); margin-bottom: 48px; font-weight: 300; }
+    .cta-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .cta-note { margin-top: 24px; font-size: 13px; color: var(--muted); }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border); padding: 40px 24px;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 16px; max-width: 1000px; margin: 0 auto;
+    }
+    .footer-logo { font-size: 15px; color: var(--dim); }
+    .footer-logo span { color: var(--accent); }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a {
+      font-size: 13px; color: var(--muted); text-decoration: none; transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--dim); }
+    .footer-copy { font-size: 13px; color: var(--muted); width: 100%; text-align: center; }
+  </style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="/" class="nav-logo">Known<span>.</span></a>
+  <div class="nav-links">
+    <a href="#how">How it works</a>
+    <a href="https://github.com/will-uniphore/finallyknown" target="_blank">GitHub</a>
+    <a href="#start" class="nav-cta">Get started</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <p class="hero-eyebrow">finallyknown.ai</p>
+  <h1 class="hero-title">Your AI,<br><em>finally</em> knowing you.</h1>
+  <p class="hero-sub">Every AI you use starts from zero. It doesn't know your name, your work, your patterns. Known changes that — permanently.</p>
+  <div class="hero-actions">
+    <a href="#start" class="btn-primary">Get started free</a>
+    <a href="#how" class="btn-secondary">See how it works</a>
+  </div>
+</section>
+
+<section class="problem">
+  <div class="container">
+    <p class="section-label">The problem</p>
+    <h2 class="section-title">Every AI you use<br>starts from scratch.</h2>
+    <p class="section-body">You explain yourself endlessly. Your preferences, your context, your history. Every new tool, a stranger. Every conversation, from zero.</p>
+    <div class="problem-grid">
+      <div>
+        <div class="problem-stat">∞</div>
+        <p class="problem-label">Times you've told an AI your preferences — and it forgot the next day.</p>
+      </div>
+      <div>
+        <div class="problem-stat">0</div>
+        <p class="problem-label">AI tools that know your patterns, your goals, and can transfer that understanding to the next tool you try.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="moments" id="how">
+  <div class="container">
+    <p class="section-label">What Known does</p>
+    <h2 class="section-title">Three moments that<br>change everything.</h2>
+    <div class="moment-list">
+
+      <div class="moment">
+        <span class="moment-num">01</span>
+        <div>
+          <h3 class="moment-title">The Mirror</h3>
+          <p class="moment-body">Your agent sees a pattern you haven't articulated to yourself — and surfaces it when you need to hear it, not when you ask.</p>
+          <div class="moment-quote">"You've been avoiding the financial conversation with your partner for 47 days. Based on your pattern, you delay big decisions when work stress is high. Work stress is high right now. This one has a time component — rates are moving."</div>
+        </div>
+      </div>
+
+      <div class="moment">
+        <span class="moment-num">02</span>
+        <div>
+          <h3 class="moment-title">The Surprise</h3>
+          <p class="moment-body">You open a new AI tool for the first time. Before you say a word, it already knows you. You never have to explain yourself again.</p>
+          <div class="moment-quote">"I see you've been deep in this codebase for 3 weeks. Your pattern says you're in the zone — I'll keep interruptions minimal. I know you context-switch between two projects, so I'll remember where we paused."</div>
+        </div>
+      </div>
+
+      <div class="moment">
+        <span class="moment-num">03</span>
+        <div>
+          <h3 class="moment-title">The Protection</h3>
+          <p class="moment-body">Known notices when you're about to repeat a pattern that hasn't served you. Your agent intervenes — not by blocking you, but by telling you the truth.</p>
+          <div class="moment-quote">"You've expressed strong enthusiasm about starting this new project. Historical pattern: you've started 4 significant side projects in 3 months. Completion rate with more than 3 active: 25%."</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="story">
+  <div class="container-narrow">
+    <p class="section-label">A story</p>
+    <p class="story-text">
+      Will had been using AI agents for two years. They were helpful — but they treated him like a stranger every time.<br><br>
+      Then he turned on Known.<br><br>
+      Three weeks later, his agent noticed a pattern Will had never seen: he was <strong>systematically avoiding the one conversation that could change his career</strong>. Not because he was afraid — because every time he built up to it, a new project distracted him.<br><br>
+      His agent said: <em>"You've done this four times. The conversation with your CEO is the highest-leverage thing you can do this quarter. Everything else is displacement activity."</em><br><br>
+      <strong>Will had the conversation the next day.</strong>
+    </p>
+  </div>
+</section>
+
+<section class="how">
+  <div class="container">
+    <p class="section-label">How it works</p>
+    <h2 class="section-title">Set up once.<br>Every AI knows you.</h2>
+    <div class="how-steps">
+      <div class="how-step">
+        <p class="how-step-num">Step 01</p>
+        <h3 class="how-step-title">Connect your agent</h3>
+        <p class="how-step-body">Known installs as a plugin for OpenClaw. One command. No accounts, no dashboards, no API keys to manage.</p>
+      </div>
+      <div class="how-step">
+        <p class="how-step-num">Step 02</p>
+        <h3 class="how-step-title">Known builds your understanding</h3>
+        <p class="how-step-body">Every conversation is analyzed. Preferences, patterns, relationships, blind spots. A knowledge graph — not raw memories, but deep understanding.</p>
+      </div>
+      <div class="how-step">
+        <p class="how-step-num">Step 03</p>
+        <h3 class="how-step-title">Every AI knows you instantly</h3>
+        <p class="how-step-body">Any agent that queries Known gets your understanding immediately. The first response feels like the hundredth conversation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="origin">
+  <div class="container-narrow">
+    <span class="origin-char">知己</span>
+    <p class="section-label" style="text-align:center; margin-bottom: 24px;">The origin</p>
+    <p class="origin-text">Known comes from the Chinese concept of 知己 (zhījǐ) — the person who truly knows you. Not a friend, not a partner. Someone who understands you so deeply they can finish your thoughts.</p>
+    <p class="origin-quote">"人生得一知己足矣" — In life, having one zhiji is enough.</p>
+    <p class="origin-text" style="margin-top: 24px;">Known is yours.</p>
+  </div>
+</section>
+
+<section class="cta-section" id="start">
+  <div class="container-narrow">
+    <h2 class="cta-title"><em>Finally</em><br>known.</h2>
+    <p class="cta-sub">Open source. Free to start. Your data stays local.</p>
+    <div class="cta-actions">
+      <a href="https://github.com/will-uniphore/finallyknown" class="btn-primary">View on GitHub →</a>
+      <a href="https://github.com/will-uniphore/finallyknown#readme" class="btn-secondary">Read the docs</a>
+    </div>
+    <p class="cta-note">Works with OpenClaw. More agents coming soon.</p>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-logo">Known<span>.</span></span>
+  <div class="footer-links">
+    <a href="https://github.com/will-uniphore/finallyknown" target="_blank">GitHub</a>
+    <a href="https://finallyknown.ai">finallyknown.ai</a>
+  </div>
+  <p class="footer-copy">© 2026 Known. Finally known.</p>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  });
+</script>
+
+</body>
+</html>
