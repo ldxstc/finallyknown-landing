@@ -26,13 +26,15 @@
     html { scroll-behavior: smooth; }
     body { background: var(--void); color: var(--ink); font-family: 'Inter', -apple-system, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
     .atm { position: fixed; inset: 0; pointer-events: none; z-index: 0; background: radial-gradient(ellipse 70% 55% at 50% 0%, rgba(184,154,106,0.05) 0%, transparent 65%); }
-    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 28px 48px; display: flex; align-items: center; justify-content: space-between; }
-    .wm { font-size: 15px; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink); text-decoration: none; }
-    .nr { display: flex; align-items: center; gap: 36px; }
-    .nl { font-size: 12px; font-weight: 300; letter-spacing: 0.07em; color: var(--ink-mid); text-decoration: none; transition: color .3s; }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 20px 32px; display: flex; align-items: center; justify-content: space-between; background: rgba(7,7,6,0.9); backdrop-filter: blur(12px); }
+    .wm { font-size: 15px; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink); text-decoration: none; white-space: nowrap; }
+    .nr { display: flex; align-items: center; gap: 28px; }
+    .nl { font-size: 12px; font-weight: 300; letter-spacing: 0.07em; color: var(--ink-mid); text-decoration: none; transition: color .3s; white-space: nowrap; }
     .nl:hover { color: var(--ink); }
-    .np { font-size: 12px; font-weight: 300; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); border: 1px solid rgba(184,154,106,0.28); padding: 9px 24px; border-radius: 100px; text-decoration: none; transition: all .3s; }
+    .np { font-size: 11px; font-weight: 300; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); border: 1px solid rgba(184,154,106,0.28); padding: 8px 20px; border-radius: 100px; text-decoration: none; transition: all .3s; white-space: nowrap; }
     .np:hover { background: rgba(184,154,106,0.07); border-color: var(--gold-soft); }
+    /* Hide nav links on small screens — keep just logo + CTA */
+    @media(max-width:560px){ .nl { display: none; } .nr { gap: 16px; } }
     .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1); }
     .reveal.visible { opacity: 1; transform: translateY(0); }
     .d1 { transition-delay: 0.15s; } .d2 { transition-delay: 0.3s; } .d3 { transition-delay: 0.45s; }
