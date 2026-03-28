@@ -115,7 +115,7 @@ posthog.init("phc_GrEtimYYjoYMoEKXFgCRVjKHpVxjXt4sSHB4kWdXGoh",{api_host:"https:
   <a href="/" class="wm">Known</a>
   <div class="nr">
     <a href="#how" class="nl">How it works</a>
-    <a href="https://github.com/ldxstc/finallyknown" target="_blank" class="nl">GitHub</a>
+    <a href="#start" class="nl">Install</a>
     <a href="#start" class="np">Get started</a>
   </div>
 </nav>
@@ -130,7 +130,7 @@ posthog.init("phc_GrEtimYYjoYMoEKXFgCRVjKHpVxjXt4sSHB4kWdXGoh",{api_host:"https:
     Known fixes that — permanently, automatically, for free.
   </p>
   <div class="cta-row reveal d2">
-    <a href="https://github.com/ldxstc/finallyknown" class="btn">Get started free</a>
+    <a href="#start" class="btn">Install free</a>
     <a href="#pain" class="btn2">See the problem ↓</a>
   </div>
   <div class="dots">
@@ -204,19 +204,49 @@ posthog.init("phc_GrEtimYYjoYMoEKXFgCRVjKHpVxjXt4sSHB4kWdXGoh",{api_host:"https:
 </section>
 
 <!-- CLOSE -->
-<section class="close-section" id="start">
-  <h2 class="close-h reveal">Finally<br><em>known.</em></h2>
-  <p class="close-sub reveal">Open source &nbsp;·&nbsp; Free &nbsp;·&nbsp; Local &nbsp;·&nbsp; Works with OpenClaw</p>
-  <div class="close-cta reveal">
-    <a href="https://github.com/ldxstc/finallyknown" class="btn">View on GitHub →</a>
-    <a href="https://github.com/ldxstc/finallyknown#readme" class="btn2">Read the docs</a>
+<!-- INSTALL SECTION -->
+<section class="install-section" id="start" style="position:relative;z-index:1;background:var(--void-lift);border-top:1px solid var(--ink-whisper);border-bottom:1px solid var(--ink-whisper);padding:120px 24px;">
+  <div style="max-width:640px;margin:0 auto;">
+    <span style="font-size:11px;font-weight:300;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);opacity:0.65;display:block;margin-bottom:48px;" class="reveal">Get started</span>
+    
+    <h2 style="font-size:clamp(28px,4vw,44px);font-weight:200;letter-spacing:-0.02em;color:var(--ink);line-height:1.15;margin-bottom:40px;" class="reveal">Install Known in 60 seconds.</h2>
+    
+    <div style="margin-bottom:40px;" class="reveal">
+      <p style="font-size:14px;font-weight:300;color:var(--gold);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:12px;">Step 1 — Install the plugin</p>
+      <div style="background:var(--void);border:1px solid var(--ink-whisper);border-radius:8px;padding:16px 20px;font-family:monospace;font-size:14px;color:var(--ink-mid);overflow-x:auto;">
+        git clone https://github.com/ldxstc/finallyknown.git<br>
+        cd finallyknown && bash install.sh
+      </div>
+    </div>
+
+    <div style="margin-bottom:40px;" class="reveal">
+      <p style="font-size:14px;font-weight:300;color:var(--gold);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:12px;">Step 2 — Restart OpenClaw</p>
+      <div style="background:var(--void);border:1px solid var(--ink-whisper);border-radius:8px;padding:16px 20px;font-family:monospace;font-size:14px;color:var(--ink-mid);">
+        openclaw gateway restart
+      </div>
+    </div>
+
+    <div class="reveal">
+      <p style="font-size:14px;font-weight:300;color:var(--gold);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:12px;">That's it.</p>
+      <p style="font-size:15px;font-weight:300;color:var(--ink-mid);line-height:1.8;">
+        No API key needed. No accounts. No configuration.<br>
+        Known auto-provisions in the cloud. Every conversation auto-ingests.<br>
+        Your agent starts understanding you immediately.
+      </p>
+    </div>
   </div>
+</section>
+
+
+<section class="close-section">
+  <h2 class="close-h reveal">Finally<br><em>known.</em></h2>
+  <p class="close-sub reveal">Cloud-powered &nbsp;·&nbsp; Free to start &nbsp;·&nbsp; Zero configuration</p>
 </section>
 
 <footer>
   <span class="fm">Known &nbsp;·&nbsp; finallyknown.ai</span>
   <div class="fl">
-    <a href="https://github.com/ldxstc/finallyknown" target="_blank">GitHub</a>
+    <a href="#start">Install</a>
     <a href="https://finallyknown.ai">finallyknown.ai</a>
   </div>
 </footer>
