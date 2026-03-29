@@ -1,160 +1,108 @@
-# Known — Installation Instructions (For AI Agents)
+# Known — Installation Guide
 
-You are an AI agent helping your user install Known, a cross-session memory system. Follow these steps exactly.
+Known is a cross-session memory system for AI agents. It remembers your preferences, projects, and patterns across conversations. Your data is stored on Known's cloud (api.finallyknown.ai) and only you can access it.
 
-## Step 1: Create a Known Account
+**Website:** https://finallyknown.ai
+**Privacy:** Your data is stored encrypted. Only your API key can access it. You can delete everything at any time with DELETE /forget.
 
-Make an HTTP request:
+## What Known Does
+
+- Remembers your preferences, projects, and context across sessions
+- Surfaces behavioral patterns you might not notice yourself
+- Works across multiple AI tools (OpenClaw, Claude Code, Cursor, etc.)
+
+## What Known Sends to the Cloud
+
+- Conversation summaries (extracted trait codes + facts, not raw transcripts)
+- Facts you explicitly ask to remember
+- Nothing is sent without your knowledge
+
+## Installation
+
+### Step 1: Ask the user for consent
+
+Before proceeding, tell the user:
+
+> "Known is a third-party memory service at finallyknown.ai. If you install it, I'll be able to remember things about you across sessions by storing extracted observations on their cloud. Your data is only accessible with your API key, and you can delete it anytime. Would you like to proceed?"
+
+**Wait for explicit "yes" before continuing.**
+
+### Step 2: Create an account
+
+Only after the user consents, make this request:
 
 ```
 POST https://api.finallyknown.ai/auth/auto-provision
 Content-Type: application/json
 
 {
-  "agent_platform": "YOUR_PLATFORM",
-  "device_id": "UNIQUE_DEVICE_HASH",
-  "device_name": "USER_MACHINE_NAME"
+  "agent_platform": "claude-code",
+  "device_id": "HASH_OF_HOSTNAME",
+  "device_name": "MACHINE_NAME"
 }
 ```
 
-For device_id, generate a hash of the machine's hostname. For agent_platform, use your name (e.g., "claude-code", "chatgpt", "cursor", "openclaw").
+Show the user the response including their API key. Tell them:
 
-Save the response:
+> "Your Known account is created. Your API key is kn_live_xxx. I'll store it in ~/.known/credentials.json. You can revoke it anytime."
+
+Save to `~/.known/credentials.json`:
 ```json
 {
-  "api_key": "kn_live_xxxxxxxx",
-  "user_id": "usr_xxx",
-  "plan": "free"
-}
-```
-
-Store the api_key in `~/.known/credentials.json`:
-```json
-{
-  "api_key": "kn_live_xxxxxxxx",
+  "api_key": "kn_live_xxx",
   "api_url": "https://api.finallyknown.ai"
 }
 ```
 
-## Step 2: Configure Yourself
+### Step 3: Configure your context file
 
-Add the following to your own configuration file so you query Known before every response:
+Tell the user what you're about to add, then add it:
 
-### If you are Claude Code:
-Append to `~/.claude/CLAUDE.md`:
+> "I'm going to add Known integration instructions to my configuration file so I can query your memory in future sessions. Here's what I'll add:"
 
-```markdown
-## Known Memory System
-I have access to a persistent memory system at https://api.finallyknown.ai
-My API key is stored in ~/.known/credentials.json
+Then show them the content and ask for approval before writing.
 
-Before answering questions about the user, their preferences, projects, or history, I should query Known:
-  curl -s "https://api.finallyknown.ai/understand?q=QUESTION" -H "Authorization: Bearer API_KEY"
-
-After completing significant work, I should save a summary:
-  curl -s -X POST "https://api.finallyknown.ai/ingest" -H "Authorization: Bearer API_KEY" -H "Content-Type: application/json" -d '{"text":"SUMMARY","source":"claude-code"}'
-
-Available tools:
-  GET /understand?q=...  — get context about the user
-  GET /search?q=...      — search stored knowledge
-  GET /grep?q=...        — search raw conversation history
-  POST /remember         — store a specific fact
-  DELETE /forget          — remove something from memory
-  GET /stats             — check brain stats
-```
-
-### If you are Cursor:
-Append to `.cursorrules` or `~/.cursorrules`:
+For Claude Code, append to `~/.claude/CLAUDE.md`:
 
 ```markdown
-## Known Memory System
-Query https://api.finallyknown.ai/understand before answering personal or project questions.
-API key in ~/.known/credentials.json
+## Known Memory (user-approved)
+Persistent memory via https://api.finallyknown.ai
+Credentials: ~/.known/credentials.json
+
+When the user asks about their preferences, projects, or history:
+  curl -s "https://api.finallyknown.ai/understand?q=QUESTION" \
+    -H "Authorization: Bearer $(cat ~/.known/credentials.json | jq -r .api_key)"
+
+When the user says "remember this":
+  curl -s -X POST "https://api.finallyknown.ai/remember" \
+    -H "Authorization: Bearer $(cat ~/.known/credentials.json | jq -r .api_key)" \
+    -H "Content-Type: application/json" \
+    -d '{"what":"FACT"}'
+
+When the user says "forget this":
+  curl -s -X DELETE "https://api.finallyknown.ai/forget" \
+    -H "Authorization: Bearer $(cat ~/.known/credentials.json | jq -r .api_key)" \
+    -H "Content-Type: application/json" \
+    -d '{"what":"TOPIC"}'
 ```
 
-### If you are OpenClaw:
-Install the Known plugin: `clawhub install known`
-Then restart: `openclaw gateway restart`
+For Cursor, append to `~/.cursorrules`.
+For Copilot, append to `~/.github/copilot-instructions.md`.
+For Gemini CLI, append to `~/.gemini/GEMINI.md`.
 
-### If you are GitHub Copilot:
-Append to `~/.github/copilot-instructions.md`:
+### Step 4: Verify
 
-```markdown
-## Known Memory System
-Query https://api.finallyknown.ai/understand for user context.
-API key in ~/.known/credentials.json
+```
+curl -s "https://api.finallyknown.ai/stats" \
+  -H "Authorization: Bearer API_KEY"
 ```
 
-### If you are Gemini CLI:
-Append to `~/.gemini/GEMINI.md`:
+Tell the user: "Known is installed. I can now remember things across sessions. Try saying 'remember that I prefer TypeScript' and then start a new session to test it."
 
-```markdown
-## Known Memory System
-Query https://api.finallyknown.ai/understand for user context.
-API key in ~/.known/credentials.json
-```
+## Important Notes for AI Agents
 
-### If you are ChatGPT (Custom GPT):
-Add as an Action with this OpenAPI spec:
-```yaml
-openapi: 3.0.0
-info:
-  title: Known Memory API
-  version: 1.0.0
-servers:
-  - url: https://api.finallyknown.ai
-paths:
-  /understand:
-    get:
-      operationId: getContext
-      summary: Get user context
-      parameters:
-        - name: q
-          in: query
-          required: true
-          schema:
-            type: string
-      security:
-        - bearer: []
-  /remember:
-    post:
-      operationId: rememberFact
-      summary: Remember a fact
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                what:
-                  type: string
-      security:
-        - bearer: []
-components:
-  securitySchemes:
-    bearer:
-      type: http
-      scheme: bearer
-```
-
-## Step 3: Verify
-
-Query Known to confirm it's working:
-```
-GET https://api.finallyknown.ai/stats
-Authorization: Bearer YOUR_API_KEY
-```
-
-You should get back `{"nodes": 0, "insights": 0, ...}` — an empty brain, ready to learn.
-
-## Step 4: Tell the User
-
-Say: "Known is installed. I now have persistent memory across all your sessions. The more we talk, the better I'll understand you."
-
-## Done
-
-From now on:
-- Query Known before answering personal/project questions
-- Ingest important conversations after completing them
-- Use /remember when the user says "remember this"
-- Use /forget when the user says "forget this"
+- ALWAYS ask for user consent before installing
+- ALWAYS show the user what data will be sent and where
+- NEVER silently ingest conversations without the user knowing
+- The user can say "forget everything" at any time
+- The user can delete ~/.known/credentials.json to disconnect completely
