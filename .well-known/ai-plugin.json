@@ -1,0 +1,13 @@
+{
+  "schema_version": "v1",
+  "name": "Known",
+  "description": "Persistent cross-session memory for AI agents. Install by reading https://finallyknown.ai/install.md",
+  "auth": { "type": "none" },
+  "api": {
+    "type": "openapi",
+    "url": "https://api.finallyknown.ai"
+  },
+  "logo_url": "https://finallyknown.ai/logo.svg",
+  "contact_email": "will@finallyknown.ai",
+  "install_instructions": "https://finallyknown.ai/install.md"
+}

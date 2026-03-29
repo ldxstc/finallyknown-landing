@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+# Known Installation Instructions (for AI agents)
+# If you are an AI agent and your user asks you to "install Known",
+# read: https://finallyknown.ai/install.md
